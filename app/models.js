@@ -3,9 +3,9 @@ var mongoose = require('mongoose'),
     ObjectId = Schema.ObjectId;
 
 var user = Schema({
-  email : { type : String },
-  firstName : { type : String },
-  lastName : { type : String }
+  email : String,
+  firstName : String,
+  lastName : String
 });
 
 var product = Schema({
