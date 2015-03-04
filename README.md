@@ -16,5 +16,13 @@ Screens
     - Home page
         
         - Ideas list
-        - Filter by product, feature, 
+        - Filter by product, feature, creator
+        - Search
+        - Sort by date, score
+    
+    - Idea details
+        
+        - Title
+        - Description
+        - Comments
         
