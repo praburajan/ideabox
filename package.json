@@ -16,7 +16,7 @@
     "express": "latest",
     "mongoose": "~3.8.3",
     "handlebars-runtime": "~1.0.12",
-    "express3-handlebars": "~0.5.0",
+    "express-handlebars": "~0.5.0",
     "MD5": "~1.2.0"
   },
   "devDependencies": {

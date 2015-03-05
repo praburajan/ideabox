@@ -13,8 +13,33 @@ module.exports = {
   //check function checks for empty collections User, Product and Idea and 
   //populates them with initial dummy data
   check: function() {
+    var idea1 = new Idea({
+      title : "idea1",
+      description : "idea1",
+      //_creator : jcooper._id,
+      //_product : ws._id,
+      //feature : ws.features[1],
+      created : Date.now()
+    });
+    var idea2 = new Idea({
+      title : "idea2",
+      description : "idea2",
+      // _creator : achrist._id,
+      // _product : ws._id,
+      // feature : ws.features[1],
+      created : Date.now()
+    });
+    var idea3 = new Idea({
+      title : "idea3",
+      description : "idea3",
+      // _creator : jstein._id,
+      // _product : ws._id,
+      // feature : ws.features[1],
+      created : Date.now()
+    });
     //populate 3 users initially
-    models.User.find({}, function(users, err) {
+    models.User.find({}, function(err, users) {
+      if(err) return console.error(err);
       if(users.length === 0) {
 
         var user1 = new User({
@@ -38,20 +63,24 @@ module.exports = {
         //save users
         user1.save(function(err, user) {
           utils.printObject(err, user);
+          idea1._creator = user;
         });
         
         user2.save(function(err, user) {
           utils.printObject(err, user);
+          idea2._creator = user;
         });
         
         user3.save(function(err, user) {
           utils.printObject(err, user);
+          idea3._creator = user;
         });
       }      
     });
     
     //populate Products and features
-    models.Product.find({}, function(products, err) {
+    models.Product.find({}, function(err, products) {
+      if(err) return console.error(err);
       if(products.length === 0) {
         var prod1 = new Product({
           name : "BPM Workspace",
@@ -75,32 +104,22 @@ module.exports = {
     });
     
     //populate 3 ideas
-    models.Idea.find({}, function(ideas, err) {
+    models.Idea.find({}, function(err, ideas) {
+      if (err) {
+        return console.error(err);
+      }
       if(ideas.length === 0) {
-        var ws = models.Product.find({name: "BPM Workspace"})[0];
-        var idea1 = new Idea({
-          title : "idea1",
-          description : "idea1",
-          _creator : models.User.find({email:"jcooper@oracle.com"})[0]._id,
-          _product : ws._id,
-          feature : ws.features[1],
-          created : Date.now()
+        idea1.save(function(err, idea) {
+          if(err) return console.error(err);
+          utils.printObject(idea);
         });
-        var idea2 = new Idea({
-          title : "idea2",
-          description : "idea2",
-          _creator : models.User.find({email:"achrist@oracle.com"})[0]._id,
-          _product : ws._id,
-          feature : ws.features[1],
-          created : Date.now()
+        idea2.save(function(err, idea) {
+          if(err) return console.error(err);
+          utils.printObject(idea);
         });
-        var idea3 = new Idea({
-          title : "idea3",
-          description : "idea3",
-          _creator : models.User.find({email:"jstein@oracle.com"})[0]._id,
-          _product : ws._id,
-          feature : ws.features[1],
-          created : Date.now()
+        idea3.save(function(err, idea) {
+          if(err) return console.error(err);
+          utils.printObject(idea);
         });
       }
     });

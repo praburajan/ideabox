@@ -1,5 +1,5 @@
-var home = require('home'),
-    ideas = require('ideas');
+var home = require('../controllers/home'),
+    ideas = require('../controllers/ideas');
 
 module.exports.initialize = function(app) {
   app.get('/',home.index);
