@@ -3,15 +3,15 @@ var mongoose = require('mongoose'),
     ObjectId = Schema.ObjectId;
 
 var UserSchema = Schema({
-  email : String,
+  email : {type : String, unique : true},
   firstName : String,
   lastName : String
 });
 
 var ProductSchema = Schema({
-  name : String,
+  name : {type : String, unique : true},
   description : String,
-  features : []
+  features : Array
 });
 
 var IdeaSchema = Schema({
@@ -21,7 +21,8 @@ var IdeaSchema = Schema({
   _creator : { type : ObjectId, ref : 'UserSchema' },
   _product : { type : ObjectId, ref : 'ProductSchema' },
   feature : String,
-  votes : [{ _voter : { type : ObjectId, ref : 'User'}, time : Date, thumbsup : Boolean}]
+  votes : [{ _voter : { type : ObjectId, ref : 'UserSchema'}, time : Date, thumbsup : Boolean}],
+  comments : [{_commentedBy : {type : ObjectId, ref : 'UserSchema'}, time : Date, body : String}]
 });
 
 // Creating models

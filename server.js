@@ -1,25 +1,30 @@
 var express = require('express'),
+    json = require('express-json'),
+    methodOverride = require('express-method-override'),
+    bodyParser = require('body-parser'),
+    cookieParser = require('cookie-parser'),
+    errorHandler = require('errorhandler'),
+    logger = require('dev-logger'),
     http = require('http'),
     path = require('path'),
-//    routes = require('./app/routes'),
+    routes = require('./app/routes'),
     exphbs = require('express3-handlebars'),
     mongoose = require('mongoose'),
     seeder = require('./app/seeder'),
     app = express();
 
 app.set('port', process.env.PORT || 3300);
-//app.use(express.logger('dev'));
-//app.use(express.json());
-//app.use(express.urlencoded());
-//app.use(express.methodOverride());
-//app.use(express.cookieParser('some-secret-value-here'));
-//app.use(app.router);
+//app.use(logger);
+app.use(json());
+app.use(bodyParser.urlencoded());
+app.use(methodOverride());
+app.use(cookieParser('some-secret-value-here'));
 app.use('/',express.static(path.join(__dirname, 'public')));
 
 //development only
-// if('development' == app.get('env')) {
-//   app.use(express.errorHandler());
-// }
+if('development' == app.get('env')) {
+  app.use(errorHandler());
+}
 
 app.set('views', __dirname + '/views');
 app.engine('handlebars', exphbs({
@@ -41,9 +46,16 @@ mongoose.connection.on('open', function() {
 
 
 //initialize routes list
-//routes.initialize(app);
+routes.initialize(app);
 
 //finally boot up the server
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Server running: http://localhost:' + app.get('port'));
+});
+
+process.on('SIGINT', function() {
+  mongoose.connection.close(function () {
+   console.log('Mongoose disconnected through app termination');
+   process.exit(0);
+  });
 });
